@@ -8,7 +8,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public float magnusStrength = 0.5f;
 
     Rigidbody rb;
-    bool isShob = false;
+    bool isShot = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,27 +19,25 @@ public class NewMonoBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && !isShob)
+        if(Keyboard.current.spaceKey.wasPressedThisFrame && !isShot)
         {
             rb.AddForce(Vector3.forward * kickForce, ForceMode.Impulse);
 
             rb.AddTorque(Vector3.up * spinAmount);
 
-            isShob = true;
+            isShot = true;
         }
      
     }
     void FixedUpdate()
     {
-        if (isShob) return;
+        if (!isShot) return;
         
         Vector3 velocity = rb.linearVelocity;
         Vector3 spin = rb.angularVelocity;
-
         Vector3 magnusForce = magnusStrength * Vector3.Cross(spin, velocity);
-        
-
-
+        rb.AddForce(magnusForce);
+    
     }
 
 
